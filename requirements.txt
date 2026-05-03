@@ -15,4 +15,3 @@ pyngrok
 Pillow
 qdrant-client
 sentence-transformers
-json

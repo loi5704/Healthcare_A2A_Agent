@@ -54,5 +54,11 @@ a2a_app = create_a2a_app(
             description="Converts clinical treatment plans into actionable, visualized daily calendars for patients.",
             tags=["scheduling", "visualization", "patient-care"],
         ),
+        AgentSkill(
+            id="cost-estimation-and-billing",
+            name="Cost Estimation & Billing",
+            description="Calculates transparent, itemized cost estimates for prescribed treatments based on medication data.",
+            tags=["cost-estimation", "billing", "financial-transparency"],
+        ),
     ],
 )
