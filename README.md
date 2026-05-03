@@ -5,7 +5,7 @@
 >
 > | What changed | Detail |
 > |---|---|
-> | `url` removed from agent card | Deprecated in v1. The agent's endpoint URL is now expressed via `supportedInterfaces` (see below). |
+> | `url` removed from agent cards | Deprecated in v1. The agent's endpoint URL is now expressed via `supportedInterfaces` (see below). |
 > | `preferredTransport` removed | Deprecated in v1. Preference order is now implicit — the first entry in `supportedInterfaces` is the preferred transport. |
 > | `supportedInterfaces` added | New field. Each entry contains `url`, `protocolBinding`, and `protocolVersion`. Replaces `url` + `preferredTransport`. |
 > | `capabilities.stateTransitionHistory` set to `false` | No longer supported by Prompt Opinion. Field is retained in the schema but must be `false`. |
