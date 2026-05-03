@@ -1,0 +1,4 @@
+GOOGLE_GENAI_USE_VERTEXAI: "FALSE"
+PO_PLATFORM_BASE_URL: "https://app.promptopinion.ai"
+AGENT_MODULE: "orchestrator.app:a2a_app"
+ORCHESTRATOR_URL: "https://orchestrator-1069708453148.us-central1.run.app"

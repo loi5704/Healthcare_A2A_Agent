@@ -25,31 +25,40 @@
 # Shared configuration — all services inherit these settings.
 x-agent-defaults: &agent-defaults
   build: .
-  env_file: .env        # loads GOOGLE_API_KEY, GOOGLE_GENAI_USE_VERTEXAI, etc.
+  env_file: .env # loads GOOGLE_API_KEY, GOOGLE_GENAI_USE_VERTEXAI, etc.
   restart: unless-stopped
 
 services:
-
-  healthcare:
+  treat_agent:
     <<: *agent-defaults
     environment:
-      AGENT_MODULE: healthcare_agent.app:a2a_app
-      PORT: "8001"
+      # Lưu ý: Thay đổi 'treatment_agent' thành tên thư mục thực tế của bạn nếu khác
+      AGENT_MODULE: treatment_agent.app:a2a_app
+      PORT: "8005"
     ports:
-      - "8001:8001"
+      - "8005:8005"
 
-  general:
+  scheduling_agent:
     <<: *agent-defaults
     environment:
-      AGENT_MODULE: general_agent.app:a2a_app
-      PORT: "8002"
+      # Lưu ý: Thay đổi 'scheduling_agent' thành tên thư mục thực tế của bạn nếu khác
+      AGENT_MODULE: scheduling_agent.app:a2a_app
+      PORT: "8006"
     ports:
-      - "8002:8002"
+      - "8006:8006"
+
+  cost_agent:
+    <<: *agent-defaults
+    environment:
+      AGENT_MODULE: cost_agent.app:a2a_app
+      PORT: "8003"
+    ports:
+      - "8003:8003"
 
   orchestrator:
     <<: *agent-defaults
     environment:
       AGENT_MODULE: orchestrator.app:a2a_app
-      PORT: "8003"
+      PORT: "8008"
     ports:
-      - "8003:8003"
+      - "8008:8008"

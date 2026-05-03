@@ -20,9 +20,9 @@ a2a_app = create_a2a_app(
     agent=root_agent,
     name="Clinical Orchestrator",
     description=(
-        "A clinical orchestrator that manages treatment planning and scheduling. "
+        "A clinical orchestrator that manages treatment planning, scheduling, and billing. "
         "It takes a confirmed diagnosis and severity level as input to generate "
-        "a personalized treatment plan and daily schedule."
+        "a personalized treatment plan, daily schedule, and estimated prescription cost."
     ),
     url=os.getenv("ORCHESTRATOR_URL", os.getenv("BASE_URL", "http://localhost:8003")),
     port=8003,

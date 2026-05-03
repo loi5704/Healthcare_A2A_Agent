@@ -11,7 +11,7 @@ warnings.filterwarnings(
 )
 
 from shared.logging_utils import configure_logging  # noqa: E402
-configure_logging("scheduling_agent")
+configure_logging("diagnosing_agent")
 
 from .agent import root_agent  # noqa: E402, F401
 

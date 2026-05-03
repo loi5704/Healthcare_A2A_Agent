@@ -23,6 +23,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+
 # Install Python dependencies first so this layer is cached between code changes.
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -38,7 +39,7 @@ ENV PORT=8080
 #   healthcare_agent.app:a2a_app   (authenticated, FHIR-connected — port 8001 locally)
 #   general_agent.app:a2a_app      (public, no key required — port 8002 locally)
 #   orchestrator.app:a2a_app       (authenticated, delegates to both — port 8003 locally)
-ENV AGENT_MODULE=healthcare_agent.app:a2a_app
+ENV AGENT_MODULE=orchestrator.app:a2a_app
 
 # exec replaces the shell so uvicorn is PID 1 and receives SIGTERM from Cloud Run.
 CMD ["sh", "-c", "exec uvicorn ${AGENT_MODULE} --host 0.0.0.0 --port ${PORT}"]
