@@ -13,3 +13,5 @@ uvicorn>=0.41.0
 google-adk[a2a]==1.31.1
 pyngrok
 Pillow
+qdrant-client
+sentence-transformers
