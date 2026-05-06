@@ -18,7 +18,7 @@ from shared.tools import (
 
 root_agent = Agent(
     name="treatment_agent",
-    model="gemini-2.5-flash-lite",
+    model="gemini-3.1-flash-lite-preview",
     description=(
         "A clinical assistant that gives treatment methods and medication based on a patient's FHIR health record "
         "after receiving diagnosis, severity and other related information about the patient's condition "

@@ -3,7 +3,7 @@ from .tools import create_treatment_schedule
 
 root_agent = Agent(
     name="scheduling_agent",
-    model="gemini-2.5-flash-lite",
+    model="gemini-3.1-flash-lite-preview",
     description=(
         "A clinical assistant that organizes medications and treatment methods "
         "into a structured daily schedule for the patient."

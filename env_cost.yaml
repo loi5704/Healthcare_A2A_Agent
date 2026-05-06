@@ -1,5 +1,5 @@
 GOOGLE_GENAI_USE_VERTEXAI: "FALSE"
 PO_PLATFORM_BASE_URL: "https://app.promptopinion.ai"
 AGENT_MODULE: "cost_agent.app:a2a_app"
-COST_AGENT_URL: ""
+COST_AGENT_URL: "https://cost-1069708453148.us-central1.run.app"
 QDRANT_URL: "https://14ea645a-2d15-43c8-b375-f85644c75935.us-east4-0.gcp.cloud.qdrant.io"

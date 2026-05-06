@@ -7,8 +7,15 @@ from typing import List
 
 load_dotenv()
 
+CURRENT_AGENT = os.getenv("AGENT_MODULE", "")
+print(f"Current Agent: {CURRENT_AGENT}")
+
+    
 QDRANT_URL = os.getenv("QDRANT_URL")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+
+if not QDRANT_URL or not QDRANT_API_KEY:
+    raise ValueError("Error: QDRANT_URL or QDRANT_API_KEY not found in the environment!")
 
 qdrant_client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
 print("Connected to Qdrant Cloud successfully!")
@@ -25,7 +32,8 @@ def get_single_medication_price(query_name: str, tool_context: ToolContext) -> d
     Takes the name of a drug (string) as input and returns the price information for that drug.
     """
 
-    
+    if embed_model is None or qdrant_client is None:
+        return {"status": "error", "message": "AI Models are not loaded. This tool is only for Cost Agent."}
     
     SIMILARITY_THRESHOLD = os.getenv("SIMILARITY_THRESHOLD", 0.5) 
 
@@ -60,6 +68,7 @@ def get_single_medication_price(query_name: str, tool_context: ToolContext) -> d
             }
 
     except Exception as e:
+        print(f"❌ [COST AGENT - CRASH TÌM GIÁ] Tìm thuốc '{query_name}' thất bại. Lỗi chi tiết: {str(e)}")
         return {
             "requested_name": query_name,
             "unit_price_usd": 0.0,
@@ -71,7 +80,7 @@ def calculate_total_prescription_cost(medications: List[dict], tool_context: Too
     """
     Receive the list of medications (including quantities), call Function 1 to get the price of each item and calculate the total cost of the entire prescription.
     """
-    
+    print(f"📦 [COST AGENT - INPUT] Orchestrator vứt sang cái này: {medications}")
     if not medications:
         return {"status": "error", "message": "Empty medications."}
     
@@ -115,6 +124,7 @@ def calculate_total_prescription_cost(medications: List[dict], tool_context: Too
         }
         
     except Exception as e:
+        print(f"❌ [COST AGENT - CRASH TỔNG] Lỗi xảy ra: {str(e)}")
         return {
             "status": "error",
             "message": f"An error occurred during calculation: {str(e)}"

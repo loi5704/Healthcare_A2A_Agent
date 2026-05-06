@@ -52,7 +52,7 @@ root_agent = Agent(
         "STEP 3: COST ESTIMATION & BILLING\n"
         "- Extract the finalized list of medications and their TOTAL QUANTITIES from Step 1.\n"
         "- Pass this information to 'cost_agent' to calculate the estimated financial cost.\n"
-        "- The 'cost_agent' will return a transparent, itemized receipt.\n\n"
+        "- The 'cost_agent' will return a transparent, itemized receipt and whole output of list of medications including similarity score and status.\n\n"
 
         "FINAL OUTPUT RULE:\n"
         "- Combine all information into a professional clinical report.\n"
