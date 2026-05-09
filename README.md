@@ -68,8 +68,34 @@ The system aims to automate and optimize complex workflows in the healthcare. Th
 ### `diagnosing_agent` — an image metadata extractor
 
 - Tools:
+  - `fetch_and_analyze_prescription`: Upload medical images from a URL and use VLM to answer diagnostic questions.
 - Description:
+
+```
+"A specialized clinical AI assistant equipped with a Vision-Language Model (VLM). "
+"It analyzes medical image URLs alongside patient symptoms to provide preliminary "
+"diagnostic insights, including disease identification and severity assessment."
+```
+
 - Instruction:
+
+```
+"You are a Clinical Diagnosing Assistant. Your role is to analyze medical images "
+"in the context of patient symptoms to generate a preliminary diagnosis.\n\n"
+
+"WORKFLOW:\n"
+"1. Extract the 'image_url' and the 'query' (patient symptoms or specific diagnostic questions) from the input.\n"
+"2. Immediately call the 'fetch_and_analyze_prescription' tool with both the URL and the query.\n"
+"3. Analyze the tool's JSON response.\n"
+"4. If the status is 'success', extract the 'diagnosis_result' and 'severity'. Return a structured, "
+"professional summary stating the preliminary diagnosis and its severity.\n"
+"5. If the status is 'error', clearly report the 'error_message' so the Orchestrator or user is aware of the failure.\n\n"
+
+"GUIDELINES:\n"
+"- Rely STRICTLY on the 'diagnosis_result' and 'severity' returned by the tool. DO NOT hallucinate medical conditions.\n"
+"- You may briefly mention the 'image_format' or 'image_size' if it adds technical context, but the diagnosis is the priority.\n"
+"- Maintain a highly professional and clinical tone suitable for an orchestrator pipeline."
+```
 
 ---
 
@@ -232,7 +258,7 @@ The system aims to automate and optimize complex workflows in the healthcare. Th
 "STEP 3: COST ESTIMATION & BILLING\n"
 "- Extract the finalized list of medications and their TOTAL QUANTITIES from Step 1.\n"
 "- Pass this information to 'cost_agent' to calculate the estimated financial cost.\n"
-"- The 'cost_agent' will return a transparent, itemized receipt and whole output of list of medications including similarity score and status.\n\n"
+"- The 'cost_agent' will return a transparent, itemized receipt.\n\n"
 
 "FINAL OUTPUT RULE:\n"
 "- Combine all information into a professional clinical report.\n"
@@ -370,7 +396,7 @@ gcloud services enable \
   secretmanager.googleapis.com
 ```
 
-- Store your Google API key in Secret Manager (keeps it out of deployment logs and the Cloud Console UI) or you can setup on the Cloud Console UI. Three values are `GOOGLE_API_KEY`, `API_KEYS` and `QDRANT_API_KEY`:
+- Store your Google API key in Secret Manager (keeps it out of deployment logs and the Cloud Console UI) or you can setup on the Cloud Console UI. Three values are `GOOGLE_API_KEY`, `API_KEYS`, `QDRANT_API_KEY` and `HF_TOKEN`:
 
 ```
 echo -n "your-google-api-key-here" | \
@@ -379,7 +405,9 @@ echo -n "your-google-api-key-here" | \
 
 #### Step 2 — Deploy each agent
 
-- All three agents are built from the same `Dockerfile` at the root of the repo. The `AGENT_MODULE` environment variable tells the container which agent to start — so each Cloud Run service is just a separate deployment of the same image with a different value.
+- All agents are built from the same `Dockerfile` at the root of the repo. The `AGENT_MODULE` environment variable tells the container which agent to start — so each Cloud Run service is just a separate deployment of the same image with a different value.
+
+- NOTE: YOU CAN DEPLOY ONLY THE ORCHESTRATOR, WORKFLOW STILL WORKS.
 
 - Prepare files `env_{name_agent}.yaml`. For example `env_orchestrator.yaml`:
 
@@ -397,11 +425,11 @@ QDRANT_URL: "your-Qdrant-cloud-URL"
 gcloud run deploy orchestrator --source .\
   --region us-central1\
   --env-vars-file "env_orchestrator.yaml"\
-  --set-secrets "GOOGLE_API_KEY=google-api-key:latest,API_KEYS=api-key:latest,QDRANT_API_KEY=qdrant-api-key:latest"\
+  --set-secrets "GOOGLE_API_KEY=google-api-key:latest,API_KEYS=api-key:latest,QDRANT_API_KEY=qdrant-api-key:latest, HF_TOKEN=hf_token:latest"\
   --allow-unauthenticated\
   --min-instances 0\
   --max-instances 1\
-  --memory 2Gi
+  --memory 4Gi
 ```
 
 - Deploy `diagnosing_agent`:
