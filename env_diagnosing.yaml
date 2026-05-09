@@ -1,0 +1,6 @@
+GOOGLE_GENAI_USE_VERTEXAI: "FALSE"
+PO_PLATFORM_BASE_URL: "https://app.promptopinion.ai"
+AGENT_MODULE: "diagnosing_agent.app:a2a_app"
+DIAGNOSING_AGENT_URL: "https://diagnosing-1069708453148.us-central1.run.app"
+QDRANT_URL: "https://14ea645a-2d15-43c8-b375-f85644c75935.us-east4-0.gcp.cloud.qdrant.io"
+LORA_MODEL_PATH: "./vqa_rad_blip_local/checkpoint-508"

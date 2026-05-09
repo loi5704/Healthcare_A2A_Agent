@@ -23,12 +23,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu --no-cache-dir
 
 # Install Python dependencies first so this layer is cached between code changes.
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the full source tree — shared/, healthcare_agent/, general_agent/, orchestrator/.
+COPY ./vqa_rad_blip_local ./vqa_rad_blip_local
+
+# Copy the full source /.
 COPY . .
 
 # Cloud Run automatically sets PORT to 8080; override for local Docker testing.

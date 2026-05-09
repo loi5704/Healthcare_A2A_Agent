@@ -407,6 +407,14 @@ gcloud run deploy orchestrator --source .\
 - Deploy `diagnosing_agent`:
 
 ```
+gcloud run deploy diagnosing --source .\
+  --region us-central1\
+  --env-vars-file "env_diagnosing.yaml"\
+  --set-secrets "GOOGLE_API_KEY=google-api-key:latest,API_KEYS=api-key:latest,QDRANT_API_KEY=qdrant-api-key:latest"\
+  --allow-unauthenticated\
+  --min-instances 0\
+  --max-instances 1\
+  --memory 2Gi
 
 ```
 

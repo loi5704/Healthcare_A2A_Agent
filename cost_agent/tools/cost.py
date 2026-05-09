@@ -7,24 +7,26 @@ from typing import List
 
 load_dotenv()
 
+qdrant_client = None
+embed_model = None
+QDRANT_URL = None
+QDRANT_API_KEY = None
+
 CURRENT_AGENT = os.getenv("AGENT_MODULE", "")
 print(f"Current Agent: {CURRENT_AGENT}")
 
-    
-QDRANT_URL = os.getenv("QDRANT_URL")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+if "orchestrator" in CURRENT_AGENT:
+    QDRANT_URL = os.getenv("QDRANT_URL")
+    QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 
-if not QDRANT_URL or not QDRANT_API_KEY:
-    raise ValueError("Error: QDRANT_URL or QDRANT_API_KEY not found in the environment!")
+    if not QDRANT_URL or not QDRANT_API_KEY:
+        raise ValueError("Error: QDRANT_URL or QDRANT_API_KEY not found in the environment!")
 
-qdrant_client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
-print("Connected to Qdrant Cloud successfully!")
+    qdrant_client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+    print("Connected to Qdrant Cloud successfully!")
 
-embed_model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
-print("Loaded embedding model successfully!")
-
-if not QDRANT_URL or not QDRANT_API_KEY:
-    raise ValueError("Error: QDRANT_URL or QDRANT_API_KEY not found in the .env file!")
+    embed_model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
+    print("Loaded embedding model successfully!")
 
 
 def get_single_medication_price(query_name: str, tool_context: ToolContext) -> dict:

@@ -20,9 +20,10 @@ a2a_app = create_a2a_app(
     agent=root_agent,
     name="Clinical Orchestrator",
     description=(
-        "A clinical orchestrator that manages treatment planning, scheduling, and billing. "
-        "It takes a confirmed diagnosis and severity level as input to generate "
-        "a personalized treatment plan, daily schedule, and estimated prescription cost."
+        "A comprehensive clinical orchestrator that manages the entire patient pipeline: "
+        "from AI-driven image diagnostics to treatment planning, scheduling, and billing. "
+        "It takes patient symptoms and medical image URLs to generate a preliminary diagnosis, "
+        "a personalized treatment plan, a daily schedule, and an estimated prescription cost."
     ),
     url=os.getenv("ORCHESTRATOR_URL", os.getenv("BASE_URL", "http://localhost:8003")),
     port=8003,
@@ -37,15 +38,21 @@ a2a_app = create_a2a_app(
     ],
     skills=[
         AgentSkill(
-            id="clinical-workflow-orchestration",
-            name="Clinical Workflow Orchestration",
-            description="Coordinates multi-agent pipelines to process medical data from diagnosis to final treatment plans.",
-            tags=["orchestration", "workflow", "clinical"],
+            id="end-to-end-clinical-orchestration",
+            name="End-to-End Clinical Orchestration",
+            description="Coordinates a complete multi-agent pipeline processing patient data from initial VLM image diagnostics to final billing.",
+            tags=["orchestration", "workflow", "end-to-end", "clinical"],
+        ),
+        AgentSkill(
+            id="vlm-diagnostic-integration",
+            name="VLM Diagnostic Integration",
+            description="Integrates with Vision-Language Models to process patient symptoms and medical image URLs for preliminary AI diagnoses.",
+            tags=["diagnostics", "vlm", "medical-imaging", "triage"],
         ),
         AgentSkill(
             id="treatment-planning-management",
             name="Treatment Planning & Management",
-            description="Integrates specialist recommendations and FHIR records to formulate comprehensive treatment strategies.",
+            description="Integrates specialist recommendations and FHIR records to formulate comprehensive, personalized treatment strategies.",
             tags=["planning", "treatment", "decision-support"],
         ),
         AgentSkill(

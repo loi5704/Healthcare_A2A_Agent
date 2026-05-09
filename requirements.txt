@@ -15,3 +15,7 @@ pyngrok
 Pillow
 qdrant-client
 sentence-transformers
+
+requests
+transformers
+peft
